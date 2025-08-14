@@ -4,6 +4,7 @@ import EditableFields from "./EditableFields";
 import TutorialSteps from "./TutorialSteps";
 import PackagesInfo from "./PackagesInfo";
 import SubTabSelector from "./SubTabSelector";
+import CodeTabs from "./CodeTabs";
 
 export interface TutorialStep {
   stepName: string;
@@ -31,6 +32,15 @@ export interface SubTabData {
   label: string;
   tutorialSteps: TutorialStep[];
   codeExample: string;
+  codeTabs?: CodeTabData[]; // Optional code tabs for showing different files
+}
+
+export interface CodeTabData {
+  id: string;
+  label: string;
+  language: string;
+  filename: string;
+  content: string;
 }
 
 export interface EditableField {
@@ -55,6 +65,7 @@ interface CodeTutorialProps {
   packagesInfo?: PackageInfo[];
   subTabs?: SubTabData[];
   editableFields?: EditableField[];
+  codeTabs?: CodeTabData[]; // Optional code tabs for showing different files
 }
 
 export default function CodeTutorial({
@@ -66,6 +77,7 @@ export default function CodeTutorial({
   packagesInfo,
   subTabs,
   editableFields,
+  codeTabs,
 }: CodeTutorialProps) {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [clickedStep, setClickedStep] = useState<number | null>(null);
@@ -162,6 +174,7 @@ export default function CodeTutorial({
           steps: subTab.tutorialSteps,
           code: applyFieldValues(subTab.codeExample, subTab.tutorialSteps),
           ranges: ranges,
+          codeTabs: subTab.codeTabs,
         };
       }
     }
@@ -172,10 +185,25 @@ export default function CodeTutorial({
       steps: tutorialSteps,
       code: applyFieldValues(codeExample, tutorialSteps),
       ranges: ranges,
+      codeTabs: codeTabs,
     };
   };
 
   const currentData = getCurrentData();
+
+  // Get all editable fields from steps
+  const getAllStepFields = () => {
+    const stepFields: EditableField[] = [];
+
+    // Add fields from current steps
+    currentData.steps.forEach((step) => {
+      if (step.editableFields) {
+        stepFields.push(...step.editableFields);
+      }
+    });
+
+    return stepFields;
+  };
 
   const handleFieldChange = (fieldId: string, value: string) => {
     setFieldValues((prev) => ({
@@ -226,35 +254,27 @@ export default function CodeTutorial({
     <div className="space-y-8">
       {/* Step Header */}
       <div>
-        <h2 className="text-2xl font-bold mb-2">{title}</h2>
-        <p className="text-gray-600">{description}</p>
+        <h2 className="text-2xl text-brand-blue-primary font-bold mb-2">
+          {title}
+        </h2>
+        <p className="text-brand-blue-primary/60">{description}</p>
       </div>
 
       {/* Demo Section (optional) */}
       {demoSection && demoSection}
 
       {/* Code Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Code Snippet */}
-        <CodeDisplay
-          code={currentData.code}
-          hoveredStep={hoveredStep}
-          clickedStep={clickedStep}
-          stepLineRanges={currentData.ranges}
-          copySuccess={copySuccess}
-          onCopyCode={handleCopyCode}
-        />
-
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Explanation */}
-        <div className="border-2 border-black h-screen overflow-scroll">
-          <div className="bg-black text-white border-b-2 border-black">
+        <div className="h-screen overflow-scroll rounded-md">
+          <div className="bg-brand-blue-secondary  text-white border-b-2 border-brand-blue-primary">
             <div className="flex">
               <button
                 onClick={() => setActiveTab("steps")}
                 className={`px-4 py-3 font-bold transition-colors ${
                   activeTab === "steps"
-                    ? "bg-white text-black"
-                    : "bg-black text-white hover:bg-gray-800"
+                    ? "bg-brand-blue-primary text-white"
+                    : "bg-brand-blue-secondary text-brand-blue-primary hover:bg-brand-blue-primary/80 hover:text-white"
                 }`}
               >
                 How It Works
@@ -263,8 +283,8 @@ export default function CodeTutorial({
                 onClick={() => setActiveTab("packages")}
                 className={`px-4 py-3 font-bold transition-colors ${
                   activeTab === "packages"
-                    ? "bg-white text-black"
-                    : "bg-black text-white hover:bg-gray-800"
+                    ? "bg-brand-blue-primary text-white"
+                    : "bg-brand-blue-secondary text-brand-blue-primary hover:bg-brand-blue-primary/80 hover:text-white"
                 }`}
               >
                 Learn More
@@ -274,7 +294,7 @@ export default function CodeTutorial({
 
           {/* Steps Tab Content */}
           {activeTab === "steps" && (
-            <div className="p-4 space-y-4">
+            <div className="p-4 bg-brand-blue-secondary/50">
               {/* Sub-tabs for ARC standards if available */}
               <SubTabSelector
                 subTabs={subTabs || []}
@@ -308,6 +328,34 @@ export default function CodeTutorial({
           {/* Packages Tab Content */}
           {activeTab === "packages" && (
             <PackagesInfo packagesInfo={packagesInfo} />
+          )}
+        </div>
+
+        {/* Code Snippet */}
+        <div className="col-span-2">
+          {currentData.codeTabs && currentData.codeTabs.length > 0 ? (
+            <CodeTabs
+              tabs={currentData.codeTabs}
+              fieldValues={fieldValues}
+              editableFields={[
+                ...(editableFields || []),
+                ...getAllStepFields(),
+              ]}
+              hoveredStep={hoveredStep}
+              clickedStep={clickedStep}
+              stepLineRanges={currentData.ranges}
+              onCopyCode={handleCopyCode}
+              copySuccess={copySuccess}
+            />
+          ) : (
+            <CodeDisplay
+              code={currentData.code}
+              hoveredStep={hoveredStep}
+              clickedStep={clickedStep}
+              stepLineRanges={currentData.ranges}
+              copySuccess={copySuccess}
+              onCopyCode={handleCopyCode}
+            />
           )}
         </div>
       </div>

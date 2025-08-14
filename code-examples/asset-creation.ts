@@ -26,19 +26,75 @@ const useAssetCreation = {
     tutorialSteps: [
       {
         stepName: "Import ARC3 utilities",
-        stepDescription: `Import algosdk and any ARC3-specific utilities for creating NFTs with rich metadata stored on IPFS.`,
+        stepDescription: `Import algosdk and any ARC3-specific utilities for creating assets with rich metadata stored on IPFS.`,
+        lineRange: { start: 1, end: 7 },
       },
       {
         stepName: "Prepare IPFS metadata",
         stepDescription: `Create the ARC3-compliant metadata JSON structure and upload it to IPFS to get the metadata hash.`,
+        lineRange: { start: 9, end: 19 },
       },
       {
         stepName: "Configure ARC3 parameters",
-        stepDescription: `Set up asset parameters for ARC3 NFT: total supply of 1, decimals of 0, and the IPFS metadata URL.`,
+        stepDescription: `Set up asset parameters for ARC3 assets: customize total supply, decimals, asset name, unit name, and the IPFS metadata URL.`,
+        lineRange: { start: 32, end: 48 },
+        editableFields: [
+          {
+            id: "assetName",
+            label: "Asset Name",
+            placeholder: "MyARC3Asset",
+            defaultValue: "MyARC3Asset",
+            targetPattern: "{{ASSET_NAME}}",
+            description: "The name of your ARC3 asset",
+            type: "text" as const,
+          },
+          {
+            id: "unitName",
+            label: "Unit Name",
+            placeholder: "ARC3",
+            defaultValue: "ARC3",
+            targetPattern: "{{UNIT_NAME}}",
+            description: "Short identifier for your asset (max 8 characters)",
+            type: "text" as const,
+          },
+          {
+            id: "totalSupply",
+            label: "Total Supply",
+            placeholder: "1",
+            defaultValue: "1",
+            targetPattern: "{{TOTAL_SUPPLY}}",
+            description:
+              "Total number of units (1 for NFT, higher for fungible tokens)",
+            type: "text" as const,
+          },
+          {
+            id: "decimals",
+            label: "Decimals",
+            placeholder: "0",
+            defaultValue: "0",
+            targetPattern: "{{DECIMALS}}",
+            description:
+              "Number of decimal places (0 for NFTs, typically 6 for tokens)",
+            type: "dropdown" as const,
+            options: ["0", "1", "2", "3", "6"],
+          },
+          {
+            id: "defaultFrozen",
+            label: "Default Frozen",
+            placeholder: "false",
+            defaultValue: "false",
+            targetPattern: "{{DEFAULT_FROZEN}}",
+            description:
+              "Whether new asset holdings should be frozen by default",
+            type: "dropdown" as const,
+            options: ["false", "true"],
+          },
+        ],
       },
       {
-        stepName: "Create NFT transaction",
+        stepName: "Create asset transaction",
         stepDescription: `Build and submit the asset creation transaction with ARC3-compliant parameters.`,
+        lineRange: { start: 50, end: 66 },
       },
     ],
     codeExample: `import algosdk from 'algosdk';
@@ -53,8 +109,8 @@ const algodClient = new algosdk.Algodv2(
 
 // ARC3 metadata structure
 const arc3Metadata = {
-  name: "My ARC3 NFT",
-  description: "A unique NFT following ARC3 standard",
+  name: "My ARC3 Asset",
+  description: "A unique asset following ARC3 standard",
   image: "ipfs://QmYourImageHash",
   image_integrity: "sha256-hash",
   image_mimetype: "image/png",
@@ -79,13 +135,13 @@ async function createARC3Asset(
     // Create ARC3 asset transaction
     const assetCreateTxn = algosdk.makeAssetCreateTxnWithSuggestedParamsFromObject({
       from: creator,
-      total: 1, // NFT has supply of 1
-      decimals: 0, // NFTs are not divisible
-      assetName: "MyARC3NFT",
-      unitName: "ARC3",
+      total: {{TOTAL_SUPPLY}}, // Configurable total supply
+      decimals: {{DECIMALS}}, // Configurable decimals
+      assetName: "{{ASSET_NAME}}",
+      unitName: "{{UNIT_NAME}}",
       assetURL: metadataURL,
       assetMetadataHash: new Uint8Array(Buffer.from(metadataHash, 'hex').slice(0, 32)),
-      defaultFrozen: false,
+      defaultFrozen: {{DEFAULT_FROZEN}},
       freeze: creator,
       manager: creator,
       reserve: creator,
@@ -97,19 +153,13 @@ async function createARC3Asset(
     const signedTxns = await signTransactions([{ txn: assetCreateTxn }]);
     const { txId } = await algodClient.sendRawTransaction(signedTxns[0]).do();
     
-    console.log('ARC3 NFT created:', txId);
+    console.log('ARC3 asset created:', txId);
     return txId;
   } catch (error) {
     console.error('ARC3 creation failed:', error);
     throw error;
   }
 }`,
-    stepLineRanges: [
-      { start: 1, end: 7 }, // Import and client setup
-      { start: 9, end: 19 }, // Metadata structure
-      { start: 26, end: 28 }, // Upload to IPFS
-      { start: 32, end: 48 }, // Create transaction
-    ],
   },
 
   // ARC69 specific data
@@ -118,18 +168,22 @@ async function createARC3Asset(
       {
         stepName: "Import ARC69 utilities",
         stepDescription: `Import algosdk for ARC69 assets. ARC69 stores metadata on-chain in the asset note field.`,
+        lineRange: { start: 1, end: 8 },
       },
       {
         stepName: "Prepare on-chain metadata",
         stepDescription: `Create ARC69-compliant metadata structure that will be stored directly in the transaction note.`,
+        lineRange: { start: 10, end: 19 },
       },
       {
         stepName: "Configure ARC69 parameters",
         stepDescription: `Set up asset parameters for ARC69: can be fungible or non-fungible, metadata stored in note field.`,
+        lineRange: { start: 32, end: 49 },
       },
       {
         stepName: "Create ARC69 transaction",
         stepDescription: `Build and submit the asset creation transaction with metadata in the note field.`,
+        lineRange: { start: 51, end: 67 },
       },
     ],
     codeExample: `import algosdk from 'algosdk';
@@ -195,12 +249,6 @@ async function createARC69Asset(
     throw error;
   }
 }`,
-    stepLineRanges: [
-      { start: 1, end: 8 }, // Import and client setup
-      { start: 10, end: 19 }, // Metadata structure
-      { start: 25, end: 30 }, // Encode metadata
-      { start: 32, end: 49 }, // Create transaction
-    ],
   },
 
   packagesInfo: [

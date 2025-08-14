@@ -1,0 +1,17 @@
+"use client";
+
+// import {
+//   NetworkId,
+//   WalletId,
+//   WalletManager,
+//   WalletProvider,
+// } from "@txnlab/use-wallet-react";
+
+// const walletManager = new WalletManager({
+//   wallets: [],
+//   defaultNetwork: NetworkId.TESTNET,
+// });
+
+// export function Providers({ children }: { children: React.ReactNode }) {
+//   return <WalletProvider manager={walletManager}>{children}</WalletProvider>;
+// }

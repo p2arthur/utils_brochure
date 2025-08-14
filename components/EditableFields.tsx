@@ -32,11 +32,11 @@ export default function EditableFields({
   const checkboxClasses = isStepVariant
     ? "rounded border-blue-300 text-blue-600 focus:ring-blue-500 focus:ring-1"
     : "rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-1";
-  const checkboxTextClasses = isStepVariant
-    ? "text-blue-700"
-    : "text-gray-700";
+  const checkboxTextClasses = isStepVariant ? "text-blue-700" : "text-gray-700";
 
-  const title = isStepVariant ? "Configure this step:" : "Customize Code Values:";
+  const title = isStepVariant
+    ? "Configure this step:"
+    : "Customize Code Values:";
 
   return (
     <div className={containerClasses}>

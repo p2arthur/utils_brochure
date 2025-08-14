@@ -1,5 +1,89 @@
 const useWalletConnection = {
   category: "wallet-connection",
+  codeTabs: [
+    {
+      id: "main",
+      label: "App.tsx",
+      language: "typescript",
+      filename: "App.tsx",
+      content: `import {
+  NetworkId,
+  WalletId,
+  WalletManager,
+  WalletProvider,
+} from '@txnlab/use-wallet-react'
+import { WalletUIProvider, WalletButton } from '@txnlab/use-wallet-ui-react'
+
+// Optional: Import pre-built styles if not using Tailwind
+// import '@txnlab/use-wallet-ui-react/dist/style.css'
+
+// Configure the wallets you want to use
+const walletManager = new WalletManager({
+  wallets: [
+    {{SELECTED_WALLETS}}
+  ],
+  defaultNetwork: NetworkId.{{NETWORK_TYPE}},
+})
+
+function App() {
+  return (
+    <WalletProvider manager={walletManager}>
+      <WalletUIProvider>
+        <div className="min-h-screen bg-white text-black">
+          <nav className="border-b-2 border-black p-4">
+            <div className="max-w-6xl mx-auto flex justify-between items-center">
+              <h1 className="text-xl font-bold">{{APP_TITLE}}</h1>
+              <div className="flex gap-6">
+                <WalletButton />
+              </div>
+            </div>
+          </nav>
+          
+          <div className="max-w-6xl mx-auto p-6">
+            <h2 className="text-2xl font-bold mb-4">Welcome to Your Algorand App</h2>
+            <p>Your wallet connection is ready!</p>
+          </div>
+        </div>
+      </WalletUIProvider>
+    </WalletProvider>
+  )
+}`,
+    },
+    {
+      id: "package",
+      label: "Package",
+      language: "json",
+      filename: "package.json",
+      content: `{
+  "name": "algorand-wallet-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@txnlab/use-wallet-react": "^3.0.0",
+    "@txnlab/use-wallet-ui-react": "^3.0.0",
+    "algosdk": "^2.7.0",
+    "next": "14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "14.0.0",
+    "tailwindcss": "^3.3.0"
+  }
+}`,
+    },
+  ],
   tutorialSteps: [
     {
       stepName: "Import wallet connection libraries",

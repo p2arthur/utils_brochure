@@ -24,15 +24,15 @@ export default function DemoSection({
   };
 
   return (
-    <div className="border-2 border-black">
-      <div className="bg-black text-white p-3 border-b-2 border-black">
+    <div className="border-2 border-brand-blue-primary rounded-md">
+      <div className="bg-brand-blue-primary text-white p-3 border-b-2 border-brand-blue-primary">
         <h3 className="font-bold">{title}</h3>
       </div>
       <div className="p-6 text-center">
         <p className="mb-4 text-gray-600">{description}</p>
         <button
           onClick={handleDemoClick}
-          className="border-2 border-black px-6 py-3 font-bold hover:bg-black hover:text-white transition-colors"
+          className="bg-brand-blue-primary text-white cursor-pointer rounded-md px-6 py-3 font-bold hover:bg-black hover:text-white transition-colors"
         >
           {buttonText}
         </button>

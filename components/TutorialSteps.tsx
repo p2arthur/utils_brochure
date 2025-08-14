@@ -65,8 +65,8 @@ export default function TutorialSteps({
           {clickedStep === index && (
             <div className="mt-2 p-2 bg-orange-50 border border-orange-200 rounded text-xs">
               <p className="font-medium text-orange-800">
-                Lines {stepLineRanges[index].start}-
-                {stepLineRanges[index].end} will be copied
+                Lines {stepLineRanges[index].start}-{stepLineRanges[index].end}{" "}
+                will be copied
               </p>
             </div>
           )}
