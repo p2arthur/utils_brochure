@@ -6,6 +6,7 @@ import AssetCreationTutorial from "./brochure-tabs/Transactions";
 import QueryingChainTutorial from "./brochure-tabs/QueryingChain";
 import BrochureTabSelector from "@/components/BrochureTabSelector";
 import { FaBookAtlas } from "react-icons/fa6";
+import Image from "next/image";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("connect-wallet");
@@ -14,11 +15,18 @@ export default function Home() {
     // <WalletProvider manager={walletManager}>
     <div className="min-h-screen bg-white text-black">
       {/* Navbar */}
-      <nav className="border-b-2 border-brand-blue-primary p-4">
+      <nav className="border-b-2 border-brand-blue-primary bg-brand-blue-secondary p-4">
         <div className="px-40 flex justify-between items-center">
           <div className="flex gap-2 items-center">
-            <h1 className="text-xl font-bold">Algokit Learn</h1>
-            <FaBookAtlas />
+            <div className="w-10 h-10 overflow-hidden rounded-md">
+              <Image
+                src="/ak_logo.png"
+                alt="Algokit Logo"
+                width={120}
+                height={120}
+              />
+            </div>
+            <h2 className="text-3xl font-bold">Learn</h2>
           </div>
           <div className="flex gap-6">
             <a href="#" className="hover:underline font-medium">

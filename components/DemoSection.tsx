@@ -24,7 +24,7 @@ export default function DemoSection({
   };
 
   return (
-    <div className="border-2 border-brand-blue-primary rounded-md">
+    <div className="border-2 border-brand-blue-primary bg-brand-blue-secondary rounded-md">
       <div className="bg-brand-blue-primary text-white p-3 border-b-2 border-brand-blue-primary">
         <h3 className="font-bold">{title}</h3>
       </div>

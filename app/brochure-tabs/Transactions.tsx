@@ -10,12 +10,30 @@ export default function AssetCreationTutorial() {
       label: "ARC3 Asset",
       tutorialSteps: useAssetCreation.arc3.tutorialSteps,
       codeExample: useAssetCreation.arc3.codeExample,
+      codeTabs: [
+        {
+          id: "main",
+          label: "ARC3Asset.ts",
+          language: "typescript",
+          filename: "ARC3Asset.ts",
+          content: useAssetCreation.arc3.codeExample,
+        },
+      ],
     },
     {
       id: "arc69",
       label: "ARC69 Asset",
       tutorialSteps: useAssetCreation.arc69.tutorialSteps,
       codeExample: useAssetCreation.arc69.codeExample,
+      codeTabs: [
+        {
+          id: "main",
+          label: "ARC69Asset.ts",
+          language: "typescript",
+          filename: "ARC69Asset.ts",
+          content: useAssetCreation.arc69.codeExample,
+        },
+      ],
     },
   ];
 

@@ -114,15 +114,15 @@ export default function CodeTabs({
   return (
     <div className="bg-brand-secondary/50">
       {/* Tab Headers */}
-      <div className="bg-brand-blue-secondary rounded-t-md overflow-hidden text-white border-b-2 border-brand-blue-primary">
-        <div className="flex">
+      <div className="bg-brand-blue-secondary overflow-hidden text-white border-b-2 border-brand-blue-primary">
+        <div className="flex border-l-2 border-brand-blue-primary">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 font-bold transition-colors border-r border-gray-600 last:border-r-0 ${
                 activeTab === tab.id
-                  ? "bg-brand-blue-primary text-white" // Use custom color for active tab
+                  ? "bg-brand-blue-primary text-white border-b-4 border-white scale-105"
                   : "bg-brand-blue-secondary text-black hover:bg-gray-100"
               }`}
             >

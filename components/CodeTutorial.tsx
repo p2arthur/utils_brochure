@@ -254,7 +254,7 @@ export default function CodeTutorial({
     <div className="space-y-8">
       {/* Step Header */}
       <div>
-        <h2 className="text-2xl text-brand-blue-primary font-bold mb-2">
+        <h2 className="text-2xl text-brand-blue-primary font-bold my-5">
           {title}
         </h2>
         <p className="text-brand-blue-primary/60">{description}</p>
@@ -264,7 +264,7 @@ export default function CodeTutorial({
       {demoSection && demoSection}
 
       {/* Code Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 border-2 border-brand-blue-primary rounded-md bg-brand-blue-secondary">
         {/* Explanation */}
         <div className="h-screen overflow-scroll rounded-md">
           <div className="bg-brand-blue-secondary  text-white border-b-2 border-brand-blue-primary">

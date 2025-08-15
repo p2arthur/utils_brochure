@@ -14,7 +14,7 @@ export default function PackagesInfo({ packagesInfo }: PackagesInfoProps) {
         packagesInfo.map((pkg, index) => (
           <div
             key={index}
-            className="p-4 border border-gray-200 rounded-lg bg-gray-50"
+            className="p-4 border border-gray-200 rounded-lg bg-brand-blue-primary text-white"
           >
             <div className="flex items-center gap-2 mb-2">
               <h4 className="font-bold text-lg">{pkg.name}</h4>
@@ -22,17 +22,17 @@ export default function PackagesInfo({ packagesInfo }: PackagesInfoProps) {
                 v{pkg.version}
               </span>
             </div>
-            <p className="text-sm text-gray-700 mb-3">{pkg.description}</p>
+            <p className="text-sm text-white mb-3">{pkg.description}</p>
 
             <div className="space-y-2">
               <div>
                 <span className="font-medium text-sm">Purpose: </span>
-                <span className="text-sm text-gray-600">{pkg.purpose}</span>
+                <span className="text-sm text-white">{pkg.purpose}</span>
               </div>
 
               <div>
                 <span className="font-medium text-sm">Installation: </span>
-                <code className="text-xs bg-gray-200 px-2 py-1 rounded font-mono">
+                <code className="text-xs bg-yellow-500 text-brand-blue-primary font-bold px-2 py-1 rounded font-mono">
                   {pkg.installation}
                 </code>
               </div>
