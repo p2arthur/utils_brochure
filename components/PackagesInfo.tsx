@@ -43,7 +43,7 @@ export default function PackagesInfo({ packagesInfo }: PackagesInfoProps) {
                   href={pkg.documentation}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline text-sm"
+                  className="text-yellow-500 hover:underline text-sm"
                 >
                   View Docs →
                 </a>
