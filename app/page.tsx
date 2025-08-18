@@ -7,6 +7,7 @@ import QueryingChainTutorial from "./brochure-tabs/QueryingChain";
 import BrochureTabSelector from "@/components/BrochureTabSelector";
 import { FaBookAtlas } from "react-icons/fa6";
 import Image from "next/image";
+import WalletConnectionButton from "@/components/WalletConnectionButton";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("connect-wallet");
@@ -28,14 +29,7 @@ export default function Home() {
             </div>
             <h2 className="text-3xl font-bold">Learn</h2>
           </div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:underline font-medium">
-              Algokit
-            </a>
-            <a href="#" className="hover:underline font-medium">
-              Examples Gallery
-            </a>
-          </div>
+          <WalletConnectionButton />
         </div>
       </nav>
 
