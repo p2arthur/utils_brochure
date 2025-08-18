@@ -16,7 +16,7 @@ export default function BrochureTabSelector({
       icon: MdAccountBalanceWallet,
     },
     {
-      name: "Creating Assets (ARC3/ARC69)",
+      name: "Creating Assets",
       value: "transactions",
       icon: MdToken,
     },

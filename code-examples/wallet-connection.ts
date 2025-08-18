@@ -3,51 +3,49 @@ const useWalletConnection = {
   codeTabs: [
     {
       id: "main",
-      label: "App.tsx",
+      label: "providers.tsx",
       language: "typescript",
-      filename: "App.tsx",
-      content: `import {
+      filename: "providers.tsx",
+      content: `"use client";
+
+import {
   NetworkId,
   WalletId,
   WalletManager,
   WalletProvider,
-} from '@txnlab/use-wallet-react'
-import { WalletUIProvider, WalletButton } from '@txnlab/use-wallet-ui-react'
+} from "@txnlab/use-wallet-react";
 
-// Optional: Import pre-built styles if not using Tailwind
-// import '@txnlab/use-wallet-ui-react/dist/style.css'
-
-// Configure the wallets you want to use
 const walletManager = new WalletManager({
-  wallets: [
-    {{SELECTED_WALLETS}}
-  ],
-  defaultNetwork: NetworkId.{{NETWORK_TYPE}},
-})
+  wallets: [WalletId.PERA, WalletId.DEFLY, WalletId.LUTE],
+  defaultNetwork: NetworkId.TESTNET,
+});
 
-function App() {
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <WalletProvider manager={walletManager}>{children}</WalletProvider>;
+}
+`,
+    },
+    {
+      id: "app",
+      label: "App.tsx",
+      language: "typescript",
+      filename: "App.tsx",
+      content: `import { WalletProvider } from "@txnlab/use-wallet-react";
+import { WalletUIProvider, WalletButton } from "@txnlab/use-wallet-ui-react";
+
+export default function App() {
   return (
     <WalletProvider manager={walletManager}>
       <WalletUIProvider>
-        <div className="min-h-screen bg-white text-black">
-          <nav className="border-b-2 border-black p-4">
-            <div className="max-w-6xl mx-auto flex justify-between items-center">
-              <h1 className="text-xl font-bold">{{APP_TITLE}}</h1>
-              <div className="flex gap-6">
-                <WalletButton />
-              </div>
-            </div>
-          </nav>
-          
-          <div className="max-w-6xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-4">Welcome to Your Algorand App</h2>
-            <p>Your wallet connection is ready!</p>
-          </div>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+          <h1 className="text-2xl font-bold mb-4">Welcome to Algorand Wallet Connection Example</h1>
+          <WalletButton />
         </div>
       </WalletUIProvider>
     </WalletProvider>
-  )
-}`,
+  );
+}
+`,
     },
     {
       id: "package",
@@ -132,6 +130,12 @@ function App() {
       stepName: "Wrap app with providers and add wallet button",
       stepDescription: `Wrap your entire application with WalletProvider and WalletUIProvider to enable wallet functionality throughout your app. Add the WalletButton component to your navbar to allow users to connect their wallets.`,
       lineRange: { start: 21, end: 39 },
+    },
+    {
+      stepName: "Show the full App.tsx example",
+      stepDescription: `Switch to the App.tsx code tab and highlight the entire file to see a simple working example for connecting wallets in a React app.`,
+      codeTab: "app",
+      lineRange: { start: 1, end: 17 },
     },
   ],
   packagesInfo: [
