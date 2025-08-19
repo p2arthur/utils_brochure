@@ -12,6 +12,6 @@ const walletManager = new WalletManager({
   defaultNetwork: NetworkId.TESTNET,
 });
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function WalletProviders({ children }: { children: React.ReactNode }) {
   return <WalletProvider manager={walletManager}>{children}</WalletProvider>;
 }
