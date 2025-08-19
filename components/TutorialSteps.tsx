@@ -23,17 +23,15 @@ export default function TutorialSteps({
   onFieldChange,
 }: TutorialStepsProps) {
   return (
-    <div className="space-y-4">
-      <p className="text-xs text-gray-600 mb-4">
-        Hover or Click to highlight code sections
-      </p>
+    <div className="space-y-0.5">
+      <p className="text-xs mb-4">Hover or Click to highlight code sections</p>
       {steps.map((step, index) => (
         <div
           key={index}
-          className={`p-3 rounded-lg transition-all duration-200 cursor-pointer border-2 ${
+          className={`p-3 transition-all duration-200 cursor-pointer rounded-t-md hover:scale-105 ${
             clickedStep === index
-              ? "bg-orange-100 border-orange-300"
-              : "hover:bg-yellow-50 hover:border-yellow-200 border-transparent"
+              ? "bg-orange-100 border-orange-300 text-brand-blue-primary"
+              : "hover:bg-yellow-50 hover:text-brand-blue-primary hover:border-yellow-200 border-transparent"
           }`}
           onMouseEnter={() => onStepHover(index)}
           onMouseLeave={() => onStepHover(null)}
@@ -41,11 +39,13 @@ export default function TutorialSteps({
         >
           <h4 className="font-bold mb-2 flex items-center gap-2">
             {index + 1} - {step.stepName}
-            {clickedStep === index && (
-              <span className="text-orange-600 text-sm">(Active)</span>
+            {step.fileReference && (
+              <span className="ml-2 text-white px-2 py-0.5 rounded bg-brand-blue-primary text-xs font-mono opacity-80">
+                {step.fileReference}
+              </span>
             )}
           </h4>
-          <p className="text-sm text-gray-700">{step.stepDescription}</p>
+          <p className="text-sm">{step.stepDescription}</p>
 
           {/* Step-specific editable fields */}
           {step.editableFields && step.editableFields.length > 0 && (
@@ -53,23 +53,14 @@ export default function TutorialSteps({
               fields={step.editableFields}
               fieldValues={fieldValues}
               onFieldChange={onFieldChange}
-              variant="step"
             />
           )}
 
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs mt-2">
             {clickedStep === index
               ? "Copy button appears next to the highlighted code"
               : "Click to pin this highlight"}
           </p>
-          {clickedStep === index && (
-            <div className="mt-2 p-2 bg-orange-50 border border-orange-200 rounded text-xs">
-              <p className="font-medium text-orange-800">
-                Lines {stepLineRanges[index].start}-{stepLineRanges[index].end}{" "}
-                will be copied
-              </p>
-            </div>
-          )}
         </div>
       ))}
     </div>

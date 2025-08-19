@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CodeDisplay from "./CodeDisplay";
 import EditableFields from "./EditableFields";
 import TutorialSteps from "./TutorialSteps";
@@ -11,6 +11,8 @@ export interface TutorialStep {
   stepDescription: string;
   editableFields?: EditableField[]; // Step-specific editable fields
   lineRange?: LineRange; // Line range for this step
+  codeTab?: string; // Optionally switch code tab on hover/click
+  fileReference?: string; // Reference to the related file
 }
 
 export interface LineRange {
@@ -129,7 +131,7 @@ export default function CodeTutorial({
   const applyFieldValues = (code: string, steps: TutorialStep[]) => {
     let updatedCode = code;
 
-    // Apply global editable fields
+    // Apply global editable fields first
     editableFields?.forEach((field) => {
       let value = fieldValues[field.id] || field.defaultValue;
 
@@ -163,29 +165,43 @@ export default function CodeTutorial({
   };
 
   // Get current data based on active sub-tab
+  // Also build a map of tabId -> array of line ranges for steps in that tab
   const getCurrentData = () => {
+    let steps: TutorialStep[] = tutorialSteps;
+    let code = applyFieldValues(codeExample, tutorialSteps);
+    let codeTabsData = codeTabs;
     if (subTabs && activeSubTab) {
       const subTab = subTabs.find((tab) => tab.id === activeSubTab);
       if (subTab) {
-        const ranges = subTab.tutorialSteps.map(
-          (step) => step.lineRange || { start: 1, end: 1 }
-        );
-        return {
-          steps: subTab.tutorialSteps,
-          code: applyFieldValues(subTab.codeExample, subTab.tutorialSteps),
-          ranges: ranges,
-          codeTabs: subTab.codeTabs,
-        };
+        steps = subTab.tutorialSteps;
+        code = applyFieldValues(subTab.codeExample, subTab.tutorialSteps);
+        codeTabsData = subTab.codeTabs;
       }
     }
-    const ranges = tutorialSteps.map(
+
+    // Map: tabId -> array of line ranges for steps in that tab
+    const tabStepLineRanges: Record<string, LineRange[]> = {};
+    if (codeTabsData && codeTabsData.length > 0) {
+      codeTabsData.forEach((tab) => {
+        tabStepLineRanges[tab.id] = steps.map((step) =>
+          step.codeTab === tab.id && step.lineRange
+            ? step.lineRange
+            : { start: 0, end: 0 }
+        );
+      });
+    }
+
+    // For main code example (no tabs)
+    const mainRanges = steps.map(
       (step) => step.lineRange || { start: 1, end: 1 }
     );
+
     return {
-      steps: tutorialSteps,
-      code: applyFieldValues(codeExample, tutorialSteps),
-      ranges: ranges,
-      codeTabs: codeTabs,
+      steps,
+      code,
+      ranges: mainRanges,
+      codeTabs: codeTabsData,
+      tabStepLineRanges,
     };
   };
 
@@ -264,17 +280,17 @@ export default function CodeTutorial({
       {demoSection && demoSection}
 
       {/* Code Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 border-2 border-brand-blue-primary rounded-md bg-brand-blue-secondary">
+      <div className="grid grid-cols-1 lg:grid-cols-3 border-2 border-brand-blue-primary rounded-md bg-brand-blue-secondary">
         {/* Explanation */}
-        <div className="h-screen overflow-scroll rounded-md">
+        <div className="h-screen overflow-scroll">
           <div className="bg-brand-blue-secondary  text-white border-b-2 border-brand-blue-primary">
             <div className="flex">
               <button
                 onClick={() => setActiveTab("steps")}
                 className={`px-4 py-3 font-bold transition-colors ${
                   activeTab === "steps"
-                    ? "bg-brand-blue-primary text-white"
-                    : "bg-brand-blue-secondary text-brand-blue-primary hover:bg-brand-blue-primary/80 hover:text-white"
+                    ? "bg-brand-blue-primary text-white scale-105"
+                    : "bg-brand-blue-secondary text-black hover:bg-gray-100"
                 }`}
               >
                 How It Works
@@ -283,8 +299,8 @@ export default function CodeTutorial({
                 onClick={() => setActiveTab("packages")}
                 className={`px-4 py-3 font-bold transition-colors ${
                   activeTab === "packages"
-                    ? "bg-brand-blue-primary text-white"
-                    : "bg-brand-blue-secondary text-brand-blue-primary hover:bg-brand-blue-primary/80 hover:text-white"
+                    ? "bg-brand-blue-primary text-white scale-105"
+                    : "bg-brand-blue-secondary text-black hover:bg-gray-100"
                 }`}
               >
                 Learn More
@@ -294,23 +310,13 @@ export default function CodeTutorial({
 
           {/* Steps Tab Content */}
           {activeTab === "steps" && (
-            <div className="p-4 bg-brand-blue-secondary/50">
+            <div className="p-4 bg-brand-blue-primary text-white">
               {/* Sub-tabs for ARC standards if available */}
               <SubTabSelector
                 subTabs={subTabs || []}
                 activeSubTab={activeSubTab}
                 onSubTabChange={setActiveSubTab}
               />
-
-              {/* Editable Fields */}
-              {editableFields && editableFields.length > 0 && (
-                <EditableFields
-                  fields={editableFields}
-                  fieldValues={fieldValues}
-                  onFieldChange={handleFieldChange}
-                  variant="global"
-                />
-              )}
 
               <TutorialSteps
                 steps={currentData.steps}
@@ -332,7 +338,7 @@ export default function CodeTutorial({
         </div>
 
         {/* Code Snippet */}
-        <div className="col-span-2">
+        <div className="col-span-2 max-h-screen overflow-hidden">
           {currentData.codeTabs && currentData.codeTabs.length > 0 ? (
             <CodeTabs
               tabs={currentData.codeTabs}
@@ -343,9 +349,17 @@ export default function CodeTutorial({
               ]}
               hoveredStep={hoveredStep}
               clickedStep={clickedStep}
-              stepLineRanges={currentData.ranges}
+              stepLineRanges={currentData.tabStepLineRanges}
               onCopyCode={handleCopyCode}
               copySuccess={copySuccess}
+              externalActiveTab={
+                // Use codeTab from clickedStep (if set), else hoveredStep (if set), else undefined
+                (typeof clickedStep === "number" &&
+                  currentData.steps[clickedStep]?.codeTab) ||
+                (typeof hoveredStep === "number" &&
+                  currentData.steps[hoveredStep]?.codeTab) ||
+                undefined
+              }
             />
           ) : (
             <CodeDisplay
