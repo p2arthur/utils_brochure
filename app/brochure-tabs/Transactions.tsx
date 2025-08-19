@@ -1,4 +1,4 @@
-import useAssetCreation from "@/code-examples/asset-creation";
+import useAssetCreation from "@/public/tutorials/app-tutorials/asset-creation";
 import CodeTutorial from "@/components/CodeTutorial";
 import DemoSection from "@/components/DemoSection";
 

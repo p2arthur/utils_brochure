@@ -1,4 +1,4 @@
-import useQueryingChain from "@/code-examples/querying-chain";
+import useQueryingChain from "@/public/tutorials/app-tutorials/querying-chain";
 import CodeTutorial from "@/components/CodeTutorial";
 import InteractiveQueryDemo from "@/components/InteractiveQueryDemo";
 

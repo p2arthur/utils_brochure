@@ -4,18 +4,30 @@ const useTransactions = {
     {
       stepName: "Import Algorand SDK",
       stepDescription: `Import the necessary modules from algosdk to work with transactions. We need algosdk for creating and managing transactions, and the transaction types for proper TypeScript support.`,
+      codeTab: "main",
+      fileReference: "transactions.ts",
+      lineRange: { start: 1, end: 2 },
     },
     {
       stepName: "Configure Algod client",
       stepDescription: `Create an Algod client instance to communicate with the Algorand network. This client will be used to submit transactions and query network information.`,
+      codeTab: "main",
+      fileReference: "transactions.ts",
+      lineRange: { start: 4, end: 8 },
     },
     {
       stepName: "Create payment transaction",
       stepDescription: `Build a payment transaction using makePaymentTxnWithSuggestedParamsFromObject. This function creates a transaction object with all the necessary parameters.`,
+      codeTab: "main",
+      fileReference: "transactions.ts",
+      lineRange: { start: 10, end: 20 },
     },
     {
       stepName: "Sign and submit transaction",
       stepDescription: `Sign the transaction with the sender's private key and submit it to the network using the Algod client. Handle the response to get the transaction ID.`,
+      codeTab: "main",
+      fileReference: "transactions.ts",
+      lineRange: { start: 22, end: 36 },
     },
   ],
   packagesInfo: [

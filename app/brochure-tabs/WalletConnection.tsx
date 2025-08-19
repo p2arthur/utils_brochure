@@ -1,4 +1,4 @@
-import useWalletConnection from "@/code-examples/wallet-connection";
+import useWalletConnection from "@/public/tutorials/app-tutorials/wallet-connection";
 import CodeTutorial from "@/components/CodeTutorial";
 import DemoSection from "@/components/DemoSection";
 import WalletConnectionDemo from "../demos/WalletConnectionDemo";
@@ -17,13 +17,30 @@ export default function WalletConnectionTutorial() {
       codeTabs={useWalletConnection.codeTabs}
       editableFields={[
         {
-          id: "appTitle",
-          label: "App Title",
-          placeholder: "My Algorand App",
-          defaultValue: "My Algorand App",
-          targetPattern: "{{APP_TITLE}}",
-          description: "The title shown in your app's navigation",
-          type: "text" as const,
+          id: "network",
+          label: "Network Type",
+          placeholder: "TESTNET",
+          defaultValue: "TESTNET",
+          targetPattern: "{{NETWORK_TYPE}}",
+          description: "Choose the network for your application",
+          type: "dropdown" as const,
+          options: ["MAINNET", "TESTNET", "LOCALNET"],
+        },
+        {
+          id: "wallets",
+          label: "Supported Wallets",
+          placeholder: "Select wallets",
+          defaultValue: "WalletId.PERA,WalletId.DEFLY",
+          targetPattern: "{{SELECTED_WALLETS}}",
+          description: "Choose which wallets your users can connect with",
+          type: "checkbox" as const,
+          options: [
+            "WalletId.PERA",
+            "WalletId.DEFLY",
+            "WalletId.LUTE",
+            "WalletId.DAFFI",
+          ],
+          defaultSelectedOptions: ["WalletId.PERA", "WalletId.DEFLY"],
         },
       ]}
     />
