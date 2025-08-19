@@ -16,12 +16,12 @@ export default function BrochureTabSelector({
       icon: MdAccountBalanceWallet,
     },
     {
-      name: "Creating Assets",
+      name: "Creating Assets (WIP)",
       value: "transactions",
       icon: MdToken,
     },
     {
-      name: "Querying the blockchain",
+      name: "Querying the blockchain (WIP)",
       value: "querying-chain",
       icon: MdSearch,
     },

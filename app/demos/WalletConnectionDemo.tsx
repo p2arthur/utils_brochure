@@ -32,7 +32,7 @@ export default function WalletConnectionDemo() {
               }}
               showLineNumbers={false}
             >
-              {"Really cool piece of shit"}
+              {"I can teach you how to connect your wallet"}
             </SyntaxHighlighter>
           </div>
         )}
