@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     // <WalletProvider manager={walletManager}>
-    <div className="min-h-screen bg-white text-black">
+    <div className="bg-white text-black">
       {/* Navbar */}
       <nav className="border-b-2 border-brand-blue-primary bg-brand-blue-secondary p-4">
         <div className="px-40 flex justify-between items-center">

@@ -6,8 +6,8 @@ interface PackagesInfoProps {
 
 export default function PackagesInfo({ packagesInfo }: PackagesInfoProps) {
   return (
-    <div className="p-4 space-y-4">
-      <p className="text-xs text-gray-600 mb-4">
+    <div className="p-4 bg-brand-blue-primary space-y-4">
+      <p className="text-xs text-white mb-4">
         Learn about the packages and tools used in this example
       </p>
       {packagesInfo && packagesInfo.length > 0 ? (

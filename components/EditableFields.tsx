@@ -4,39 +4,21 @@ interface EditableFieldsProps {
   fields: EditableField[];
   fieldValues: Record<string, string>;
   onFieldChange: (fieldId: string, value: string) => void;
-  variant?: "global" | "step";
 }
 
-export default function EditableFields({
-  fields,
-  fieldValues,
-  onFieldChange,
-  variant = "global",
-}: EditableFieldsProps) {
-  const isStepVariant = variant === "step";
-  const containerClasses = isStepVariant
-    ? "mt-3 p-3 bg-blue-50 border border-blue-200 rounded"
-    : "mb-4 p-3 bg-gray-50 border border-gray-300 rounded";
-  const titleClasses = isStepVariant
-    ? "font-semibold text-xs mb-2 text-blue-800"
-    : "font-semibold text-sm mb-3 text-gray-700";
-  const labelClasses = isStepVariant
-    ? "text-xs font-medium text-blue-700 mb-1"
-    : "text-xs font-medium text-gray-600 mb-1";
-  const descriptionClasses = isStepVariant
-    ? "text-xs text-blue-600 mb-1"
-    : "text-xs text-gray-500 mb-1";
-  const inputClasses = isStepVariant
-    ? "px-2 py-1 text-xs border border-blue-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-    : "px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500";
-  const checkboxClasses = isStepVariant
-    ? "rounded border-blue-300 text-blue-600 focus:ring-blue-500 focus:ring-1"
-    : "rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-1";
-  const checkboxTextClasses = isStepVariant ? "text-blue-700" : "text-gray-700";
-
-  const title = isStepVariant
-    ? "Configure this step:"
-    : "Customize Code Values:";
+export default function EditableFields(props: EditableFieldsProps) {
+  const { fields, fieldValues, onFieldChange } = props;
+  const containerClasses =
+    "bg-brand-blue-secondary text-brand-blue-primary rounded mb-4 p-1";
+  const titleClasses = "font-semibold text-sm mb-3 text-brand-blue-primary";
+  const labelClasses = "text-xs font-medium text-brand-blue-primary mb-1";
+  const descriptionClasses = "text-xs text-brand-blue-primary/70 mb-1";
+  const inputClasses =
+    "px-2 py-1 text-sm border border-white rounded bg-brand-blue-primary text-white focus:outline-none focus:border-white focus:ring-1 focus:ring-white placeholder-white/60";
+  const checkboxClasses =
+    "rounded border-white text-brand-blue-primary focus:ring-white focus:ring-1";
+  const checkboxTextClasses = "text-brand-blue-primary";
+  const title = "Customize Code Values:";
 
   return (
     <div className={containerClasses}>
@@ -75,9 +57,7 @@ export default function EditableFields({
                   return (
                     <label
                       key={option}
-                      className={`flex items-center gap-2 ${
-                        isStepVariant ? "text-xs" : "text-sm"
-                      }`}
+                      className="flex items-center gap-2 text-sm"
                     >
                       <input
                         type="checkbox"
