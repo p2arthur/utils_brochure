@@ -80,6 +80,7 @@ export default function CodeDisplay({
           </button>
         )}
         <SyntaxHighlighter
+          data-testid="code-display"
           language="javascript"
           style={tomorrow}
           customStyle={{

@@ -270,10 +270,18 @@ export default function CodeTutorial({
     <div className="space-y-8">
       {/* Step Header */}
       <div>
-        <h2 className="text-2xl text-brand-blue-primary font-bold my-5">
+        <h2
+          data-testid="tutorial-title"
+          className="text-2xl text-brand-blue-primary font-bold my-5"
+        >
           {title}
         </h2>
-        <p className="text-brand-blue-primary/60">{description}</p>
+        <p
+          data-testid="tutorial-description"
+          className="text-brand-blue-primary/60"
+        >
+          {description}
+        </p>
       </div>
 
       {/* Demo Section (optional) */}

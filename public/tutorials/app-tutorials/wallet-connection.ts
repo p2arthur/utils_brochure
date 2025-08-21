@@ -1,4 +1,7 @@
 const useWalletConnection = {
+  title: "Step 1: Learn How to Connect Wallets to Your App",
+  description:
+    "Understanding wallet connection is the first step in building Algorand applications. Learn step-by-step how to integrate wallet connectivity.",
   category: "wallet-connection",
   codeTabs: [
     {

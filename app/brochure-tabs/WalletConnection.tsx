@@ -2,14 +2,15 @@ import useWalletConnection from "@/public/tutorials/app-tutorials/wallet-connect
 import CodeTutorial from "@/components/CodeTutorial";
 import DemoSection from "@/components/DemoSection";
 import WalletConnectionDemo from "../demos/WalletConnectionDemo";
+import { use } from "react";
 
 export default function WalletConnectionTutorial() {
   const demoSection = <WalletConnectionDemo />;
 
   return (
     <CodeTutorial
-      title="Step 1: Learn How to Connect Wallets to Your App"
-      description="Understanding wallet connection is the first step in building Algorand applications. Learn step-by-step how to integrate wallet connectivity."
+      title={useWalletConnection.title}
+      description={useWalletConnection.description}
       codeExample={useWalletConnection.codeExample}
       tutorialSteps={useWalletConnection.tutorialSteps}
       demoSection={demoSection}

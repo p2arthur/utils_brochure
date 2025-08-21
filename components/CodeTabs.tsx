@@ -224,6 +224,7 @@ export default function CodeTabs(props: CodeTabsProps) {
           })()}
 
           <SyntaxHighlighter
+            data-testid="code-display"
             language={activeTabData.language}
             style={tomorrow}
             customStyle={{
