@@ -6,6 +6,95 @@ interface EditableFieldsProps {
   onFieldChange: (fieldId: string, value: string) => void;
 }
 
+// Simplified function to render individual field inputs - easier to test
+export function renderFieldInput(
+  field: EditableField,
+  fieldValues: Record<string, string>,
+  onFieldChange: (fieldId: string, value: string) => void,
+  styleClasses: {
+    inputClasses: string;
+    checkboxClasses: string;
+    checkboxTextClasses: string;
+  }
+) {
+  const { inputClasses, checkboxClasses, checkboxTextClasses } = styleClasses;
+
+  if (field.type === "dropdown") {
+    return (
+      <select
+        value={fieldValues[field.id] || field.defaultValue}
+        onChange={(e) => onFieldChange(field.id, e.target.value)}
+        className={inputClasses}
+      >
+        {field.options?.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  if (field.type === "checkbox") {
+    return (
+      <div className="space-y-1">
+        {field.options?.map((option) => {
+          const selectedOptions = (
+            fieldValues[field.id] ||
+            field.defaultValue ||
+            ""
+          )
+            .split(",")
+            .filter(Boolean);
+          const isChecked = selectedOptions.includes(option);
+
+          return (
+            <label key={option} className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={(e) => {
+                  const currentSelected = (
+                    fieldValues[field.id] ||
+                    field.defaultValue ||
+                    ""
+                  )
+                    .split(",")
+                    .filter(Boolean);
+                  let newSelected;
+
+                  if (e.target.checked) {
+                    newSelected = [...currentSelected, option];
+                  } else {
+                    newSelected = currentSelected.filter(
+                      (item) => item !== option
+                    );
+                  }
+
+                  onFieldChange(field.id, newSelected.join(","));
+                }}
+                className={checkboxClasses}
+              />
+              <span className={checkboxTextClasses}>{option}</span>
+            </label>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // Default to text input
+  return (
+    <input
+      type="text"
+      value={fieldValues[field.id] || field.defaultValue}
+      onChange={(e) => onFieldChange(field.id, e.target.value)}
+      placeholder={field.placeholder}
+      className={inputClasses}
+    />
+  );
+}
+
 export default function EditableFields(props: EditableFieldsProps) {
   const { fields, fieldValues, onFieldChange } = props;
   const containerClasses =
@@ -20,6 +109,12 @@ export default function EditableFields(props: EditableFieldsProps) {
   const checkboxTextClasses = "text-brand-blue-primary";
   const title = "Customize Code Values:";
 
+  const styleClasses = {
+    inputClasses,
+    checkboxClasses,
+    checkboxTextClasses,
+  };
+
   return (
     <div className={containerClasses}>
       <h4 className={titleClasses}>{title}</h4>
@@ -30,74 +125,7 @@ export default function EditableFields(props: EditableFieldsProps) {
             {field.description && (
               <p className={descriptionClasses}>{field.description}</p>
             )}
-            {field.type === "dropdown" ? (
-              <select
-                value={fieldValues[field.id] || field.defaultValue}
-                onChange={(e) => onFieldChange(field.id, e.target.value)}
-                className={inputClasses}
-              >
-                {field.options?.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            ) : field.type === "checkbox" ? (
-              <div className="space-y-1">
-                {field.options?.map((option) => {
-                  const selectedOptions = (
-                    fieldValues[field.id] ||
-                    field.defaultValue ||
-                    ""
-                  )
-                    .split(",")
-                    .filter(Boolean);
-                  const isChecked = selectedOptions.includes(option);
-
-                  return (
-                    <label
-                      key={option}
-                      className="flex items-center gap-2 text-sm"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={(e) => {
-                          const currentSelected = (
-                            fieldValues[field.id] ||
-                            field.defaultValue ||
-                            ""
-                          )
-                            .split(",")
-                            .filter(Boolean);
-                          let newSelected;
-
-                          if (e.target.checked) {
-                            newSelected = [...currentSelected, option];
-                          } else {
-                            newSelected = currentSelected.filter(
-                              (item) => item !== option
-                            );
-                          }
-
-                          onFieldChange(field.id, newSelected.join(","));
-                        }}
-                        className={checkboxClasses}
-                      />
-                      <span className={checkboxTextClasses}>{option}</span>
-                    </label>
-                  );
-                })}
-              </div>
-            ) : (
-              <input
-                type="text"
-                value={fieldValues[field.id] || field.defaultValue}
-                onChange={(e) => onFieldChange(field.id, e.target.value)}
-                placeholder={field.placeholder}
-                className={inputClasses}
-              />
-            )}
+            {renderFieldInput(field, fieldValues, onFieldChange, styleClasses)}
           </div>
         ))}
       </div>

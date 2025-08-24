@@ -27,6 +27,9 @@ export default function TutorialSteps({
       <p className="text-xs mb-4">Hover or Click to highlight code sections</p>
       {steps.map((step, index) => (
         <div
+          data-testid={
+            clickedStep === index ? "active-step-tab" : `step-tab-${index}`
+          }
           key={index}
           className={`p-3 transition-all duration-200 cursor-pointer rounded-t-md hover:scale-105 ${
             clickedStep === index

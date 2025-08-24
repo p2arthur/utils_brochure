@@ -33,6 +33,11 @@ export default function CodeTabs(props: CodeTabsProps) {
     externalActiveTab,
   } = props;
   const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id || "");
+
+  // Reset activeTab to first tab when tabs prop changes (e.g., when switching subtabs)
+  useEffect(() => {
+    setActiveTab(defaultTab || tabs[0]?.id || "");
+  }, [tabs, defaultTab]);
   const [internalCopySuccess, setInternalCopySuccess] = useState(false);
 
   // Sync activeTab with externalActiveTab
@@ -131,6 +136,9 @@ export default function CodeTabs(props: CodeTabsProps) {
         <div className="flex border-l-2 border-brand-blue-primary">
           {tabs.map((tab) => (
             <button
+              data-testid={
+                activeTab === tab.id ? "active-code-tab" : `code-tab-${tab.id}`
+              }
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 font-bold transition-colors border-r border-gray-600 last:border-r-0 ${

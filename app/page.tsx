@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import WalletConnectionTutorial from "./brochure-tabs/WalletConnection";
-import AssetCreationTutorial from "./brochure-tabs/Transactions";
+import AssetCreationTutorial from "./brochure-tabs/CreateAsset";
 import QueryingChainTutorial from "./brochure-tabs/QueryingChain";
 import BrochureTabSelector from "@/components/BrochureTabSelector";
 import { FaBookAtlas } from "react-icons/fa6";
