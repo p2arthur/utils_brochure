@@ -29,12 +29,21 @@ export default function Home() {
             </div>
             <h2 className="text-3xl font-bold">Learn</h2>
           </div>
-          <WalletConnectionButton />
+          <div className="flex items-center gap-3">
+            {/* Testnet Indicator Pill */}
+            <div className="flex items-center gap-1 bg-yellow-100 border border-yellow-300 px-3 py-1 rounded-full">
+              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+              <span className="text-yellow-800 text-sm font-medium">
+                TestNet
+              </span>
+            </div>
+            <WalletConnectionButton />
+          </div>
         </div>
       </nav>
 
       {/* Main Content */}
-      <div className="px-40 py-6">
+      <div className="px-2 md:px-40 lg:px-40 py-6">
         <BrochureTabSelector
           setterFunction={setActiveTab}
           activeTab={activeTab}

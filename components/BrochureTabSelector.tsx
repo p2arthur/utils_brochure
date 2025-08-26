@@ -1,4 +1,4 @@
-import { MdAccountBalanceWallet, MdToken, MdSearch } from "react-icons/md";
+import Image from "next/image";
 
 interface BrochureTabSelectorProps {
   activeTab: string;
@@ -13,17 +13,17 @@ export default function BrochureTabSelector({
     {
       name: "Easily connecting Wallets",
       value: "connect-wallet",
-      icon: MdAccountBalanceWallet,
+      icon: "/wallet-icon.png",
     },
     {
-      name: "Creating Assets (WIP)",
+      name: "Creating Assets",
       value: "transactions",
-      icon: MdToken,
+      icon: "/coin-icon.png",
     },
     {
-      name: "Querying the blockchain (WIP)",
+      name: "Querying the blockchain",
       value: "querying-chain",
-      icon: MdSearch,
+      icon: "/cloud-icon.png",
     },
   ];
 
@@ -32,18 +32,23 @@ export default function BrochureTabSelector({
       <div className="flex gap-0">
         <div className="flex rounded-t-md overflow-hidden border-b-2 border-brand-blue-primary">
           {brochureTabs.map((tab) => {
-            const IconComponent = tab.icon;
             return (
               <button
                 key={tab.value}
                 onClick={() => setterFunction(tab.value)}
-                className={`px-6 py-3 border-b-0 font-medium flex items-center gap-2 ${
+                className={`px-6 py-3 border-b-0 font-medium flex flex-col md:flex-row lg:flex-row items-center gap-2 ${
                   activeTab === tab.value
                     ? "bg-brand-blue-primary text-white" // Use custom color for active tab
                     : "bg-brand-blue-secondary text-black hover:bg-gray-100"
                 }`}
               >
-                <IconComponent className="text-lg" />
+                <Image
+                  src={tab.icon}
+                  alt={`${tab.name} icon`}
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
                 {tab.name}
               </button>
             );

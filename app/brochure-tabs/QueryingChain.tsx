@@ -10,24 +10,48 @@ export default function QueryingChainTutorial() {
     {
       id: "accountInfo",
       label: "Account Info",
-      tutorialSteps: [useQueryingChain.tutorialSteps[0], useQueryingChain.tutorialSteps[1], useQueryingChain.tutorialSteps[2]],
+      tutorialSteps: [
+        useQueryingChain.tutorialSteps[0], // Import Algorand Client
+        useQueryingChain.tutorialSteps[1], // Import Dependencies for Account Query
+        useQueryingChain.tutorialSteps[2], // Define Account Query Function
+        useQueryingChain.tutorialSteps[3], // Execute Account Query
+        useQueryingChain.tutorialSteps[4], // Import React Dependencies
+        useQueryingChain.tutorialSteps[5], // Setup Component State
+        useQueryingChain.tutorialSteps[6], // Handle Account Query Execution
+        useQueryingChain.tutorialSteps[7], // Render Account Query Form
+      ],
       codeExample:
         useQueryingChain.codeTabs.find((tab) => tab.id === "algorandClient")
           ?.content || "",
       codeTabs: useQueryingChain.codeTabs.filter(
-        (tab) => tab.id === "algorandClient" || tab.id === "accountInfo"
+        (tab) => 
+          tab.id === "algorandClient" || 
+          tab.id === "accountInfo" || 
+          tab.id === "accountInfoComponent"
       ),
       disabled: false,
     },
     {
       id: "assetLookup",
       label: "Asset Lookup",
-      tutorialSteps: [useQueryingChain.tutorialSteps[3], useQueryingChain.tutorialSteps[4], useQueryingChain.tutorialSteps[5]],
+      tutorialSteps: [
+        useQueryingChain.tutorialSteps[8],  // Import Algorand Client
+        useQueryingChain.tutorialSteps[9],  // Import Dependencies for Asset Query
+        useQueryingChain.tutorialSteps[10], // Define Asset Query Function
+        useQueryingChain.tutorialSteps[11], // Execute Asset Query
+        useQueryingChain.tutorialSteps[12], // Import React Dependencies
+        useQueryingChain.tutorialSteps[13], // Setup Component State
+        useQueryingChain.tutorialSteps[14], // Handle Asset Query Execution
+        useQueryingChain.tutorialSteps[15], // Render Asset Query Form
+      ],
       codeExample:
         useQueryingChain.codeTabs.find((tab) => tab.id === "algorandClient")
           ?.content || "",
       codeTabs: useQueryingChain.codeTabs.filter(
-        (tab) => tab.id === "algorandClient" || tab.id === "assetLookup"
+        (tab) => 
+          tab.id === "algorandClient" || 
+          tab.id === "assetLookup" || 
+          tab.id === "assetLookupComponent"
       ),
       disabled: false,
     },

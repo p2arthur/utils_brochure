@@ -2,6 +2,7 @@ import WalletConnectionButton from "@/components/WalletConnectionButton";
 import { useWallet } from "@txnlab/use-wallet-react";
 import { useState } from "react";
 import * as algokit from "@algorandfoundation/algokit-utils";
+import { MdSearch, MdCheckCircle, MdInfo } from "react-icons/md";
 
 function AssetInfoCard({ asset }: { asset: any }) {
   if (!asset) return null;
@@ -22,20 +23,32 @@ function AssetInfoCard({ asset }: { asset: any }) {
     ["Metadata Hash", params.metadataHash ?? "-"],
   ];
   return (
-    <div className="mt-4 p-4 bg-white border rounded text-sm text-left max-w-2xl mx-auto shadow">
-      <h4 className="font-bold text-brand-blue-primary mb-4">Asset Info</h4>
-      <table className="w-full border-separate border-spacing-y-1">
-        <tbody>
-          {rows.map(([label, value]) => (
-            <tr key={label}>
-              <td className="font-semibold pr-2 text-brand-blue-primary whitespace-nowrap w-1/3">
-                {label}:
-              </td>
-              <td className="font-mono break-all w-2/3">{value}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="mt-4 p-4 bg-green-50 border-2 border-green-200 rounded-lg">
+      <div className="flex items-center justify-center mb-3">
+        <MdCheckCircle className="h-6 w-6 text-green-500 mr-2" />
+        <h4 className="text-lg font-semibold text-green-800">Asset Found!</h4>
+      </div>
+
+      <div className="bg-white border border-green-200 rounded-md p-4 shadow-sm">
+        <h4 className="font-bold text-brand-blue-primary mb-4 text-center">
+          Asset Information
+        </h4>
+        <table className="w-full border-separate border-spacing-y-1">
+          <tbody>
+            {rows.map(([label, value]) => (
+              <tr key={label}>
+                <td className="font-semibold pr-2 text-brand-blue-primary whitespace-nowrap w-1/3">
+                  {label}:
+                </td>
+                <td className="font-mono break-all w-2/3 text-sm">{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-3 text-xs text-gray-500 text-center">
+          Asset data retrieved successfully from the Algorand blockchain.
+        </div>
+      </div>
     </div>
   );
 }
@@ -80,19 +93,22 @@ export default function QueryAssetDemo() {
       </div>
 
       <div className="p-6">
+        {/* Subtle informational message */}
+        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+          <p className="text-xs text-yellow-700">
+            <strong>💡 Tip:</strong> Query asset information from the blockchain
+          </p>
+        </div>
+
         {!activeWallet ? (
           <div className="text-center">
-            <p className="mb-4 text-gray-600">
-              Connect your wallet to query an Algorand asset by its ID.
-            </p>
             <WalletConnectionButton />
           </div>
         ) : (
           <div className="space-y-4">
-            <p className="text-gray-700">
-              Connected as{" "}
-              <span className="font-mono">{activeAccount?.address}</span>
-            </p>
+            <div className="text-xs text-gray-500 text-center">
+              Connected: <span className="font-mono">{activeAccount?.address.slice(0, 8)}...</span>
+            </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="flex flex-col">
@@ -129,7 +145,14 @@ export default function QueryAssetDemo() {
               </button>
             </div>
 
-            {error && <div className="mt-2 text-red-600 text-sm">{error}</div>}
+            {error && (
+              <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+                <div className="text-red-600 text-sm font-medium">
+                  <MdInfo className="inline h-4 w-4 mr-1" />
+                  Error: {error}
+                </div>
+              </div>
+            )}
 
             {assetInfo && <AssetInfoCard asset={assetInfo} />}
           </div>
