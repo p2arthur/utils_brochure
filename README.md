@@ -1,3 +1,34 @@
+# AlgoKit Utils Interactive Brochure
+
+A Next.js learning interface presenting Algorand wallet connection, chain queries, transactions, and asset-creation examples.
+
+The repository combines code displays with interactive demo components. Read the provider and network configuration before using transaction demos; documentation examples and submitted on-chain actions are separate behaviors.
+
+## Start reading
+
+- [`app/`](app/)
+- [`tests/`](tests/)
+
+## Development
+
+Use Node.js and npm compatible with the versions recorded in the package manifest and lockfile. Each package is installed from its own directory.
+
+From the repository root:
+
+```sh
+npm ci
+npm run dev
+```
+
+Additional scripts in this package: `npm run build`, `npm run lint`.
+
+## Existing project notes
+
+The original guide below preserves project-specific context, credits, examples, and historical setup details. Referenced providers, branches, and deployments may have changed since it was written.
+
+<details>
+<summary>Read the original project documentation</summary>
+
 # AK Learn
 
 **AK Learn** is an interactive learning platform built with **Next.js** to showcase the capabilities of [AlgoKit Utils](https://github.com/algorandfoundation/algokit-utils).  
@@ -105,3 +136,5 @@ AK Learn is designed for:
 - **@txnlab/use-wallet-react** — wallet integration hooks.
 
 ---
+
+</details>
